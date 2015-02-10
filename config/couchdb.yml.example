@@ -1,0 +1,21 @@
+development: &development
+  protocol: 'http'
+  host: 
+  port: 
+  prefix: 
+  suffix: 
+  username: 
+  password: 
+
+test:
+  <<: *development
+  suffix: test
+
+production:
+  protocol: 'https'
+  host: 
+  port: 
+  prefix: 
+  suffix: 
+  username: 
+  password: 
