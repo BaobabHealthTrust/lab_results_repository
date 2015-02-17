@@ -156,6 +156,8 @@ class ProcessController < ApplicationController
 
     source = params[:_json]
 
+    source = JSON.parse(source) if source.class.to_s.downcase == "string"
+
     render :text => {"Error" => "Invalid Input"}.to_json and return if source.blank?
 
     result = []
