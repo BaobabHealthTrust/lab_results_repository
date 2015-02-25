@@ -24,6 +24,7 @@ class Result < CouchRest::Model::Base
     property :entered_by, String   
     property :location_entered, String   
     property :result_date_time, String
+    property :status, String
   end
 
   property :voided, TrueClass, :default => false
