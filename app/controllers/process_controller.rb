@@ -55,7 +55,8 @@ class ProcessController < ApplicationController
               :reference_range => result[:order][:reference_range],
               :entered_by => result[:order][:entered_by],
               :location_entered => result[:order][:location_entered],
-              :result_date_time => result[:order][:result_date_time]
+              :result_date_time => result[:order][:result_date_time],
+              :status => result[:order][:status]
           }
 
         end
@@ -131,7 +132,8 @@ class ProcessController < ApplicationController
               :reference_range => result[:order][:reference_range],
               :entered_by => result[:order][:entered_by],
               :location_entered => result[:order][:location_entered],
-              :result_date_time => result[:order][:result_date_time]
+              :result_date_time => result[:order][:result_date_time],
+              :status => result[:order][:status]
           }
 
         end
@@ -164,7 +166,7 @@ class ProcessController < ApplicationController
 
     source.each do |patient|
 
-      npid = patient["national_patient_id"]
+      npid = patient["patient"]["national_patient_id"]
 
       patient_name = patient["patient"]["patient_name"]
 
@@ -175,6 +177,7 @@ class ProcessController < ApplicationController
       patient["orders"].each do |accession_number, members|
 
         members["results"].each do |test_code, elements|
+
           order = {
               :patient => {
                   :national_patient_id => npid,
@@ -197,7 +200,8 @@ class ProcessController < ApplicationController
                   :reference_range => elements["reference_range"],
                   :entered_by => elements["entered_by"],
                   :location_entered => elements["location_entered"],
-                  :result_date_time => elements["date_time"]
+                  :result_date_time => elements["date_time"],
+                  :status => members["status"]
               }
           }
 
