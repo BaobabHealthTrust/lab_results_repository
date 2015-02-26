@@ -15,8 +15,8 @@ class ProcessController < ApplicationController
         if patients[:national_patient_id].blank?
 
           patients[:national_patient_id] = {
-              :national_patient_id => result[:patient][:national_patient_id],
               :patient => {
+                  :national_patient_id => result[:patient][:national_patient_id],
                   :patient_name => result[:patient][:patient_name],
                   :date_of_birth => result[:patient][:date_of_birth],
                   :gender => result[:patient][:gender]
@@ -92,8 +92,8 @@ class ProcessController < ApplicationController
         if patients[:national_patient_id].blank?
 
           patients[:national_patient_id] = {
-              :national_patient_id => result[:patient][:national_patient_id],
               :patient => {
+                  :national_patient_id => result[:patient][:national_patient_id],
                   :patient_name => result[:patient][:patient_name],
                   :date_of_birth => result[:patient][:date_of_birth],
                   :gender => result[:patient][:gender]
