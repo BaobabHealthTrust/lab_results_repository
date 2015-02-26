@@ -219,4 +219,143 @@ class ProcessController < ApplicationController
 
   end
 
+  def update_labs_only
+
+=begin
+    _json: [
+        {
+            "patient":{
+                "national_patient_id":"P170000000031",
+                "patient_name":"Test N/A Patient ",
+                "date_of_birth":"19930701",
+                "gender":"F"
+            },
+            "orders":{
+                "KCH000001":{
+                    "sample_type":"",
+                    "who_order_test":"",
+                    "date_time":"",
+                    "sending_facility":"KCH",
+                    "receiving_facility":"KCH",
+                    "reason_for_test":"",
+                    "results":{
+                        "2324-2":{
+                            "test_name":"Gamma glutamyl transferase",
+                            "result":"",
+                            "units":"",
+                            "reference_range":"",
+                            "entered_by":"User Super (1)",
+                            "location_entered":"Ward 4B",
+                            "date_time":"20150226182838",
+                            "status":"Drawn"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+=end
+
+    json = JSON.parse(params[:_json])
+
+    patient = json[0] rescue nil
+
+    npid = patient["patient"]["national_patient_id"] rescue nil
+
+    if !patient.blank? and !npid.blank?
+
+      accession_numbers = patient["orders"].keys
+
+      accession_numbers.each do |num|
+
+        tests = patient["orders"][num]["results"].keys
+
+        tests.each do |test|
+
+          object = Result.by_npid_accession_number_and_test_code.key(["#{npid}", "#{num}", "#{test}"]).each.first
+
+          changed = false
+
+          if (!object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank? and
+              object.order.result.strip != patient["orders"][num]["results"][test]["result"].strip) or
+                (object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank?)
+
+            object.order.result = patient["orders"][num]["results"][test]["result"]
+
+            changed = true
+
+          end
+
+          if (!object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank? and
+              object.order.units.strip != patient["orders"][num]["results"][test]["units"].strip) or
+              (object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank?)
+
+            object.order.units = patient["orders"][num]["results"][test]["units"]
+
+            changed = true
+
+          end
+
+          if (!object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank? and
+              object.order.reference_range.strip != patient["orders"][num]["results"][test]["reference_range"].strip) or
+              (object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank?)
+
+            object.order.reference_range = patient["orders"][num]["results"][test]["reference_range"]
+
+            changed = true
+
+          end
+
+          if (!object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank? and
+              object.order.entered_by.strip != patient["orders"][num]["results"][test]["entered_by"].strip) or
+              (object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank?)
+
+            object.order.entered_by = patient["orders"][num]["results"][test]["entered_by"]
+
+            changed = true
+
+          end
+
+          if (!object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank? and
+              object.order.location_entered.strip != patient["orders"][num]["results"][test]["location_entered"].strip) or
+              (object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank?)
+
+            object.order.location_entered = patient["orders"][num]["location_entered"]
+
+            changed = true
+
+          end
+
+          if (!object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank? and
+              object.order.result_date_time.strip != patient["orders"][num]["results"][test]["date_time"].strip) or
+              (object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank?)
+
+            object.order.result_date_time = patient["orders"][num]["results"][test]["date_time"]
+
+            changed = true
+
+          end
+
+          if (!object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank? and
+              object.order.status.strip != patient["orders"][num]["results"][test]["status"].strip) or
+              (object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank?)
+
+            object.order.status = patient["orders"][num]["results"][test]["status"]
+
+            changed = true
+
+          end
+
+          object.save if changed
+
+        end
+
+      end
+
+    end
+
+    render :text => json.to_json
+
+  end
+
 end

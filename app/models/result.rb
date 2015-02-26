@@ -177,5 +177,18 @@ class Result < CouchRest::Model::Base
                     emit([doc['order']['accession_number'], doc['order']['test_code']], 1);
                   }
                 }"
+    view :by_accession_number_and_npid,
+         :map => "function(doc) {
+                  if ((doc['type'] == 'Result') && (doc['order'] != null && doc['order']['accession_number'] != null) && (doc['patient'] != null && doc['patient']['national_patient_id'] != null)) {
+                    emit([doc['order']['accession_number'], doc['patient']['national_patient_id']], 1);
+                  }
+                }"
+    view :by_npid_accession_number_and_test_code,
+         :map => "function(doc) {
+                  if ((doc['type'] == 'Result') && doc['order'] != null && doc['order']['accession_number'] != null &&
+                      doc['order']['test_code'] != null && (doc['patient'] != null && doc['patient']['national_patient_id'] != null)) {
+                    emit([doc['patient']['national_patient_id'], doc['order']['accession_number'], doc['order']['test_code']], 1);
+                  }
+                }"
   end
 end
