@@ -56,7 +56,8 @@ class ProcessController < ApplicationController
               :entered_by => result[:order][:entered_by],
               :location_entered => result[:order][:location_entered],
               :result_date_time => result[:order][:result_date_time],
-              :status => result[:order][:status]
+              :status => result[:order][:status],
+              :panel_loinc_code => result[:order][:panel_loinc_code]
           }
 
         end
@@ -133,7 +134,8 @@ class ProcessController < ApplicationController
               :entered_by => result[:order][:entered_by],
               :location_entered => result[:order][:location_entered],
               :result_date_time => result[:order][:result_date_time],
-              :status => result[:order][:status]
+              :status => result[:order][:status],
+              :panel_loinc_code => result[:order][:panel_loinc_code]
           }
 
         end
@@ -201,7 +203,8 @@ class ProcessController < ApplicationController
                   :entered_by => elements["entered_by"],
                   :location_entered => elements["location_entered"],
                   :result_date_time => elements["date_time"],
-                  :status => members["status"]
+                  :status => members["status"],
+                  :panel_loinc_code => elements["panel_loinc_code"]
               }
           }
 
