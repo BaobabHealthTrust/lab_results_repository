@@ -42,6 +42,8 @@ gem 'sprockets', '2.11.3'
 
 gem 'sprockets-rails', '2.2.1'
 
+gem 'passenger', '5.0.5'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
