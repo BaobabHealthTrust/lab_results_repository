@@ -598,7 +598,7 @@ var who_ordered = (data[&quot;whoOrderedTest&quot;] != undefined ? data[&quot;wh
 var test_result = (data[&quot;testResult&quot;] != undefined ? data[&quot;testResult&quot;] : &quot;&quot;);
 var units = (data[&quot;units&quot;] != undefined ? data[&quot;units&quot;] : &quot;&quot;);
 var ref_range = (data[&quot;referenceRange&quot;] != undefined ? data[&quot;referenceRange&quot;] : &quot;&quot;);
-var sample_draw_date = (data[&quot;timestampForSpecimenCollection&quot;] != undefined ? data[&quot;timestampForSpecimenCollection&quot;] : &quot;&quot;);
+var sample_draw_date = (data[&quot;timestampForSpecimenCollection&quot;] != undefined ? data[&quot;timestampForSpecimenCollection&quot;] : msg_timestamp);
 var drawn_by = (data[&quot;enteredBy&quot;] != undefined ? data[&quot;enteredBy&quot;] : &quot;&quot;);
 var analysis_date = (data[&quot;analysisDate&quot;] != undefined ? data[&quot;analysisDate&quot;] : &quot;&quot;);
 var testing_org = (data[&quot;testingFacility&quot;] != undefined ? data[&quot;testingFacility&quot;] : &quot;&quot;);
@@ -639,7 +639,7 @@ record[&quot;orders&quot;][lab_accession_number] = {};
 	
 record[&quot;orders&quot;][lab_accession_number][&quot;sample_type&quot;] = specimen_type;
 	
-record[&quot;orders&quot;][lab_accession_number][&quot;who_order_test&quot;] = who_ordered;
+record[&quot;orders&quot;][lab_accession_number][&quot;who_ordered_test&quot;] = who_ordered;
 	
 record[&quot;orders&quot;][lab_accession_number][&quot;date_time&quot;] = sample_draw_date;
 	
@@ -744,7 +744,7 @@ record[&quot;orders&quot;][lab_accession_number] = {};
 	
 record[&quot;orders&quot;][lab_accession_number][&quot;sample_type&quot;] = specimen_type;
 	
-record[&quot;orders&quot;][lab_accession_number][&quot;who_order_test&quot;] = who_ordered;
+record[&quot;orders&quot;][lab_accession_number][&quot;who_ordered_test&quot;] = who_ordered;
 	
 record[&quot;orders&quot;][lab_accession_number][&quot;date_time&quot;] = sample_draw_date;
 	
