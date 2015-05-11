@@ -26,6 +26,8 @@ class Result < CouchRest::Model::Base
     property :result_date_time, String
     property :status, String
     property :panel_loinc_code, String
+    property :rejection_reason, String
+    property :remark, String
   end
 
   property :voided, TrueClass, :default => false
@@ -150,6 +152,14 @@ class Result < CouchRest::Model::Base
       changed = true
 
     elsif (current_order["order"]["result_date_time"].strip rescue "") != (incoming_order[:order][:result_date_time].strip rescue "")
+
+      changed = true
+
+    elsif (current_order["order"]["rejection_reason"].strip rescue "") != (incoming_order[:order][:rejection_reason].strip rescue "")
+
+      changed = true
+
+    elsif (current_order["order"]["remark"].strip rescue "") != (incoming_order[:order][:remark].strip rescue "")
 
       changed = true
 
