@@ -5,10 +5,10 @@
   <description></description>
   <enabled>true</enabled>
   <lastModified>
-    <time>1424968107600</time>
+    <time>1431344941300</time>
     <timezone>Africa/Blantyre</timezone>
   </lastModified>
-  <revision>9</revision>
+  <revision>4</revision>
   <sourceConnector version="3.1.1">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -473,6 +473,10 @@ for(var i = 0; i &lt; data[&quot;tests&quot;].length; i++){
 
 	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;status&quot;] = (data[&quot;tests&quot;][i][&quot;status&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;status&quot;] : &quot;&quot;);
 
+	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;rejection_reason&quot;] = (data[&quot;tests&quot;][i][&quot;rejectionReason&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;rejectionReason&quot;] : &quot;&quot;);
+
+	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;remark&quot;] = (data[&quot;tests&quot;][i][&quot;comments&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;comments&quot;] : &quot;&quot;);
+
 }
 
 patient.push(record);
@@ -576,6 +580,10 @@ for(var i = 0; i &lt; data[&quot;tests&quot;].length; i++){
 	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;date_time&quot;] = (data[&quot;tests&quot;][i][&quot;timestampForSpecimenCollection&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;timestampForSpecimenCollection&quot;] : &quot;&quot;);
 
 	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;status&quot;] = (data[&quot;tests&quot;][i][&quot;status&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;status&quot;] : &quot;&quot;);
+
+	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;rejection_reason&quot;] = (data[&quot;tests&quot;][i][&quot;rejectionReason&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;rejectionReason&quot;] : &quot;&quot;);
+
+	record[&quot;orders&quot;][lab_accession_number][&quot;results&quot;][data[&quot;tests&quot;][i][&quot;testCode&quot;]][&quot;remark&quot;] = (data[&quot;tests&quot;][i][&quot;comments&quot;] != undefined ? data[&quot;tests&quot;][i][&quot;comments&quot;] : &quot;&quot;);
 
 }
 
