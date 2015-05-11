@@ -57,7 +57,9 @@ class ProcessController < ApplicationController
               :location_entered => result[:order][:location_entered],
               :result_date_time => result[:order][:result_date_time],
               :status => result[:order][:status],
-              :panel_loinc_code => result[:order][:panel_loinc_code]
+              :panel_loinc_code => result[:order][:panel_loinc_code],
+              :rejection_reason => result[:order][:rejection_reason],
+              :remark => result[:order][:remark]
           }
 
         end
@@ -135,7 +137,9 @@ class ProcessController < ApplicationController
               :location_entered => result[:order][:location_entered],
               :result_date_time => result[:order][:result_date_time],
               :status => result[:order][:status],
-              :panel_loinc_code => result[:order][:panel_loinc_code]
+              :panel_loinc_code => result[:order][:panel_loinc_code],
+              :rejection_reason => result[:order][:rejection_reason],
+              :remark => result[:order][:remark]
           }
 
         end
@@ -204,7 +208,9 @@ class ProcessController < ApplicationController
                   :location_entered => elements["location_entered"],
                   :result_date_time => elements["date_time"],
                   :status => members["status"],
-                  :panel_loinc_code => elements["panel_loinc_code"]
+                  :panel_loinc_code => elements["panel_loinc_code"],
+                  :rejection_reason => elements["rejection_reason"],
+                  :remark => elements["remark"]
               }
           }
 
@@ -250,7 +256,9 @@ class ProcessController < ApplicationController
                             "entered_by":"User Super (1)",
                             "location_entered":"Ward 4B",
                             "date_time":"20150226182838",
-                            "status":"Drawn"
+                            "status":"Drawn",
+                            "rejection_reason":"Bad Sample",
+                            "remark":"N/A"
                         }
                     }
                 }
@@ -279,9 +287,9 @@ class ProcessController < ApplicationController
 
           changed = false
 
-          if (!object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank? and
               object.order.result.strip != patient["orders"][num]["results"][test]["result"].strip) or
-                (object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank?)
+                (!object.blank? and object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank?)
 
             object.order.result = patient["orders"][num]["results"][test]["result"]
 
@@ -289,9 +297,9 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank? and
               object.order.units.strip != patient["orders"][num]["results"][test]["units"].strip) or
-              (object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank?)
+              (!object.blank? and object.order.units.blank? and !patient["orders"][num]["results"][test]["units"].blank?)
 
             object.order.units = patient["orders"][num]["results"][test]["units"]
 
@@ -299,9 +307,9 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank? and
               object.order.reference_range.strip != patient["orders"][num]["results"][test]["reference_range"].strip) or
-              (object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank?)
+              (!object.blank? and object.order.reference_range.blank? and !patient["orders"][num]["results"][test]["reference_range"].blank?)
 
             object.order.reference_range = patient["orders"][num]["results"][test]["reference_range"]
 
@@ -309,9 +317,9 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank? and
               object.order.entered_by.strip != patient["orders"][num]["results"][test]["entered_by"].strip) or
-              (object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank?)
+              (!object.blank? and object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank?)
 
             object.order.entered_by = patient["orders"][num]["results"][test]["entered_by"]
 
@@ -319,9 +327,9 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank? and
               object.order.location_entered.strip != patient["orders"][num]["results"][test]["location_entered"].strip) or
-              (object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank?)
+              (!object.blank? and object.order.location_entered.blank? and !patient["orders"][num]["results"][test]["location_entered"].blank?)
 
             object.order.location_entered = patient["orders"][num]["location_entered"]
 
@@ -329,9 +337,9 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank? and
               object.order.result_date_time.strip != patient["orders"][num]["results"][test]["date_time"].strip) or
-              (object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank?)
+              (!object.blank? and object.order.result_date_time.blank? and !patient["orders"][num]["results"][test]["date_time"].blank?)
 
             object.order.result_date_time = patient["orders"][num]["results"][test]["date_time"]
 
@@ -339,11 +347,31 @@ class ProcessController < ApplicationController
 
           end
 
-          if (!object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank? and
+          if (!object.blank? and !object.order.blank? and !object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank? and
               object.order.status.strip != patient["orders"][num]["results"][test]["status"].strip) or
-              (object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank?)
+              (!object.blank? and object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank?)
 
             object.order.status = patient["orders"][num]["results"][test]["status"]
+
+            changed = true
+
+          end
+
+          if (!object.blank? and !object.order.blank? and !object.order.status.blank? and !patient["orders"][num]["results"][test]["rejection_reason"].blank? and
+              object.order.status.strip != patient["orders"][num]["results"][test]["rejection_reason"].strip) or
+              (!object.blank? and object.order.status.blank? and !patient["orders"][num]["results"][test]["rejection_reason"].blank?)
+
+            object.order.rejection_reason = patient["orders"][num]["results"][test]["rejection_reason"]
+
+            changed = true
+
+          end
+
+          if (!object.blank? and !object.order.blank? and !object.order.status.blank? and !patient["orders"][num]["results"][test]["remark"].blank? and
+              object.order.status.strip != patient["orders"][num]["results"][test]["remark"].strip) or
+              (!object.blank? and object.order.status.blank? and !patient["orders"][num]["results"][test]["remark"].blank?)
+
+            object.order.remark = patient["orders"][num]["results"][test]["remark"]
 
             changed = true
 
