@@ -201,10 +201,8 @@ class ProcessController < ApplicationController
                   :reason_for_test => members["reason_for_test"],
                   :test_code => test_code,
                   :test_name => elements["test_name"],
-                  :result => elements["result"],
                   :units => elements["units"],
                   :reference_range => elements["reference_range"],
-                  :entered_by => elements["entered_by"],
                   :location_entered => elements["location_entered"],
                   :result_date_time => elements["date_time"],
                   :status => members["status"],
@@ -213,6 +211,14 @@ class ProcessController < ApplicationController
                   :remark => elements["remark"]
               }
           }
+
+          if (members["status"].strip.downcase == "tested" rescue false)
+
+            order[:order][:entered_by] = elements["entered_by"]
+
+            order[:order][:result] = elements["result"]
+
+          end
 
           outcome = Result.create_or_update(order)
 
@@ -291,9 +297,13 @@ class ProcessController < ApplicationController
               object.order.result.strip != patient["orders"][num]["results"][test]["result"].strip) or
                 (!object.blank? and object.order.result.blank? and !patient["orders"][num]["results"][test]["result"].blank?)
 
-            object.order.result = patient["orders"][num]["results"][test]["result"]
+            if (patient["orders"][num]["results"][test]["status"].strip.downcase == "tested" rescue false)
 
-            changed = true
+              object.order.result = patient["orders"][num]["results"][test]["result"]
+
+              changed = true
+
+            end
 
           end
 
@@ -321,9 +331,13 @@ class ProcessController < ApplicationController
               object.order.entered_by.strip != patient["orders"][num]["results"][test]["entered_by"].strip) or
               (!object.blank? and object.order.entered_by.blank? and !patient["orders"][num]["results"][test]["entered_by"].blank?)
 
-            object.order.entered_by = patient["orders"][num]["results"][test]["entered_by"]
+            if (patient["orders"][num]["results"][test]["status"].strip.downcase == "tested" rescue false)
 
-            changed = true
+              object.order.entered_by = patient["orders"][num]["results"][test]["entered_by"]
+
+              changed = true
+
+            end
 
           end
 
@@ -351,9 +365,15 @@ class ProcessController < ApplicationController
               object.order.status.strip != patient["orders"][num]["results"][test]["status"].strip) or
               (!object.blank? and object.order.status.blank? and !patient["orders"][num]["results"][test]["status"].blank?)
 
-            object.order.status = patient["orders"][num]["results"][test]["status"]
+            if (["Ordered", "Drawn", "Received At Reception", "Received In Department", "Sample Rejected", "Testing",
+                 "Tested", "Verified", "Voided", "Test Rejected",
+                 "Result Rejected"].include?patient["orders"][num]["results"][test]["status"].strip.downcase rescue false)
 
-            changed = true
+              object.order.status = patient["orders"][num]["results"][test]["status"]
+
+              changed = true
+
+            end
 
           end
 
