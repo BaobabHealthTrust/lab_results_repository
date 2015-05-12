@@ -6,9 +6,9 @@ class ProcessController < ApplicationController
 
     patients = {}
 
-    if !params[:id].blank?
+    if !params[:id].blank? and !params[:page].blank? and !params[:page_size].blank?
 
-      patient_orders = Result.by_npid.key(params[:id])
+      patient_orders = Result.by_npid.key(params[:id]).page(params[:page]).per(params[:page_size])
 
       patient_orders.each do |result|
 
@@ -73,6 +73,10 @@ class ProcessController < ApplicationController
         results << patients[npid]
 
       end
+
+      total = Result.by_npid.key(params[:id]).count
+
+      results << {count: total};
 
     end
 
