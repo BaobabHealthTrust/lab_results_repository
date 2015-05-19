@@ -371,7 +371,7 @@ class ProcessController < ApplicationController
 
             if (["Ordered", "Drawn", "Received At Reception", "Received In Department", "Sample Rejected", "Testing",
                  "Tested", "Verified", "Voided", "Test Rejected",
-                 "Result Rejected"].include?patient["orders"][num]["results"][test]["status"].strip.downcase rescue false)
+                 "Result Rejected"].include?patient["orders"][num]["results"][test]["status"].strip rescue false)
 
               object.order.status = patient["orders"][num]["results"][test]["status"]
 
